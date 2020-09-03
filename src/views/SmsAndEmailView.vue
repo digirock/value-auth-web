@@ -24,7 +24,7 @@
               <tbody>
 
               <contact-row v-for="contact in smsContacts" :contact="contact" v-on:commit="onCommit"
-                           v-on:delete="onDelete"/>
+                           v-on:delete="onDelete" v-bind:key="contact.id"/>
               </tbody>
             </table>
           </div>
@@ -52,7 +52,7 @@
               </thead>
               <tbody>
               <contact-row v-for="contact in emailContacts" :contact="contact" v-on:commit="onCommit"
-                           v-on:delete="onDelete"/>
+                           v-on:delete="onDelete" v-bind:key="contact.id"/>
               </tbody>
             </table>
           </div>
@@ -63,25 +63,25 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component} from "vue-property-decorator";
 import ContentWrapper from "@/components/ContentWrapper.vue";
 import {DeleteContactInput, GetContactInput, PostContactInput, PutContactInput, SendKbn} from "@/client/ApiInput";
 import {DeleteContactEndpoint, GetContactEndpoint, PostContactEndpoint, PutContactEndpoint} from "@/client/ApiEndpoint";
-import {parseApiError} from "@/client/ApiError";
 import ApiClient from "@/client/ApiClient";
-import ContactRow from "@/components/ContactRow";
 import {Contact} from "@/client/ApiResult";
+import BaseView from "@/views/BaseView.vue";
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import VueSimpleAlert from "vue-simple-alert";
+import {Vue} from "vue-property-decorator"
+import ContactRow from "@/components/ContactRow.vue";
 
 Vue.use(Loading);
 Vue.use(VueSimpleAlert);
-
 @Component({
-  components: {ContentWrapper, ContactRow, Loading}
+  components: {ContentWrapper, ContactRow}
 })
-export default class SmsAndEmailView extends Vue {
+export default class SmsAndEmailView extends BaseView {
   phoneNumber: string = '';
   email: string = '';
   smsContacts: Array<Contact> = [];
@@ -112,7 +112,7 @@ export default class SmsAndEmailView extends Vue {
   }
 
 
-  reloadPhoneNumbers(loader?: Loading) {
+  reloadPhoneNumbers(loader?: any) {
     let apiClient = this.$apiClient as ApiClient;
     let input = <GetContactInput>{
       send_kbn: SendKbn.Sms
@@ -142,7 +142,7 @@ export default class SmsAndEmailView extends Vue {
     })
   }
 
-  reloadEmails(loader?: Loading) {
+  reloadEmails(loader?: any) {
     let apiClient = this.$apiClient as ApiClient;
     let input = <GetContactInput>{
       send_kbn: SendKbn.Email
@@ -196,15 +196,6 @@ export default class SmsAndEmailView extends Vue {
         })
       }
     });
-  }
-
-  handleErrors(reason: any, loader: Loading) {
-    console.log(reason);
-    let error = parseApiError(reason);
-    console.log(error);
-    loader.hide();
-    let message = Object.values(error.errors.message).join('\n');
-    this.$alert(message);
   }
 
 }

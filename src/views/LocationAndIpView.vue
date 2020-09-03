@@ -8,9 +8,11 @@
             <p>新規追加</p>
             <form action="#">
               <div>
-                <select>
-                  <option value="test">test</option>
-                  <option value="test">test</option>
+                <select v-model="prefecture">
+                  <option v-for="prefecture_option in prefecture_options" v-bind:value="prefecture_option.id"
+                          v-bind:key="prefecture_option.id">
+                    {{ prefecture_option.name }}
+                  </option>
                 </select>
                 <input type="submit" value="追加">
               </div>
@@ -26,31 +28,9 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td class="va_num">10</td>
-                <td>沖縄県</td>
-                <td class="btn_area one"><a href="#" class="delete"></a></td>
-              </tr>
-              <tr>
-                <td class="va_num">10</td>
-                <td>沖縄県</td>
-                <td class="btn_area one"><a href="#" class="delete"></a></td>
-              </tr>
-              <tr>
-                <td class="va_num">10</td>
-                <td>沖縄県</td>
-                <td class="btn_area one"><a href="#" class="delete"></a></td>
-              </tr>
-              <tr>
-                <td class="va_num">10</td>
-                <td>沖縄県</td>
-                <td class="btn_area one"><a href="#" class="delete"></a></td>
-              </tr>
-              <tr>
-                <td class="va_num">10</td>
-                <td>沖縄県</td>
-                <td class="btn_area one"><a href="#" class="delete"></a></td>
-              </tr>
+              <location-row v-for="restriction in locationRestrictions" :contact="locationRestriction"
+                            v-on:commit="onCommit"
+                            v-on:delete="onDelete" v-bind:key="locationRestriction.id"/>
               </tbody>
             </table>
           </div>
@@ -78,6 +58,8 @@
               </tr>
               </thead>
               <tbody>
+              <ip-address-row v-for="restriction in ipAddressRestrictions" v-bind:key="restriction.id"
+                              restriction="restriction"/>
               <tr class="on">
                 <td class="va_num">10</td>
                 <td>172.217.26.99</td>
@@ -116,9 +98,11 @@
             <p>新規追加</p>
             <form action="#">
               <div>
-                <select>
-                  <option value="test">test</option>
-                  <option value="test">test</option>
+                <select v-model="country">
+                  <option v-for="code in Object.keys(country_options)" v-bind:value="code"
+                          v-bind:key="code">
+                    {{ country_options[code] }}
+                  </option>
                 </select>
                 <input type="submit" value="追加">
               </div>
@@ -176,12 +160,44 @@
 
 import {Component, Vue} from "vue-property-decorator";
 import ContentWrapper from "@/components/ContentWrapper.vue";
+import BaseView from "@/views/BaseView.vue";
+import {Prefecture} from "@/utils/Prefecture";
+import * as i18nCountries from "i18n-iso-countries";
+import * as jpPrefecture from 'jp-prefecture';
+import {LocalizedCountryNames} from "i18n-iso-countries";
+import LocationRow from "@/components/LocationRow.vue";
+import {Contact, CountryRestriction, IpAddressRestriction} from "@/client/ApiResult";
+import IpAddressRow from "@/components/IpAddressRow.vue";
 
 @Component({
-  components: {ContentWrapper}
+  components: {IpAddressRow, LocationRow, ContentWrapper}
 })
-export default class LocationAndIpView extends Vue {
+export default class LocationAndIpView extends BaseView {
+  prefecture: string = '';
+  country: string = '';
 
+  locationRestrictions: Array<Contact> = [];
+  countryRestrictions: Array<CountryRestriction> = [];
+  ipAddressRestrictions: Array<IpAddressRestriction> = [];
+
+  created() {
+    this.$eventBus.$once('api-client-initialized', () => {
+
+        }
+    );
+  }
+
+  reloadLocationRestrictions() {
+
+  }
+
+  get country_options(): LocalizedCountryNames {
+    return i18nCountries.getNames('ja');
+  }
+
+  get prefecture_options(): Prefecture[] {
+    return jpPrefecture.getAll("pref", ["id", "name"])
+  }
 }
 </script>
 

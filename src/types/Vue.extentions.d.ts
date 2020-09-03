@@ -5,6 +5,7 @@ declare module 'vue/types/vue' {
     interface Vue {
         $apiClient: any;
         $eventBus: any;
+        $loading: any;
     }
 
     interface VueConstructor {

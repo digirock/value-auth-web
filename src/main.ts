@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import DebugClient from "@/debug/DebugClient";
+import * as i18nCountries from "i18n-iso-countries";
 
 const authCode = "f684f2c89fdea6ad4fa4b23d59bcaafe"
 const customerKey = "test";
@@ -21,6 +22,7 @@ let apiClient = new DebugClient({
 });
 Vue.prototype.$apiClient = apiClient;
 
+i18nCountries.registerLocale(require("i18n-iso-countries/langs/ja.json"))
 const app = new Vue({
     router,
     store,

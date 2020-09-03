@@ -5,7 +5,8 @@
     <td v-if="!editing">{{ label }}</td>
     <td v-else>
       <form action="#" v-on:submit.prevent="commit">
-        <input :type="contact.send_kbn === 1 ? 'tel' : 'email'" v-model="label"/></form>
+        <input :type="contact.send_kbn === 1 ? 'tel' : 'email'" v-model="label"/>
+      </form>
     </td>
 
     <td class="btn_area">
@@ -16,12 +17,13 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
+import {Component, Prop} from "vue-property-decorator";
 import {PropType} from "vue";
-import {Contact} from "@/client/ApiResult";
+import {Contact, Model} from "@/client/ApiResult";
+import DataRow from "@/components/DataRow.vue";
 
-@Component
-export default class ContactRow extends Vue {
+@Component({})
+export default class ContactRow extends DataRow{
   @Prop({type: Object as PropType<Contact>}) contact!: Contact;
   editing: boolean = false;
 
@@ -37,17 +39,8 @@ export default class ContactRow extends Vue {
     return this.contact.id.toString();
   }
 
-  toggleEdit() {
-    this.editing = !this.editing;
-  }
-
-  askDeletion() {
-    this.$emit('delete', this.contact);
-  }
-
-  commit() {
-    this.toggleEdit();
-    this.$emit('commit', this.contact);
+  get dataInstance(): Model | undefined {
+    return this.contact;
   }
 
 }
