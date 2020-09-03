@@ -26,6 +26,11 @@
       "dom",
       "dom.iterable",
       "scripthost"
+    ],
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
     ]
   },
   "include": [

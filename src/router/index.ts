@@ -1,29 +1,40 @@
 import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
+import VueRouter, {RouteConfig} from 'vue-router'
+import SmsAndEmailView from "@/views/SmsAndEmailView.vue";
+import LocationAndIpView from "@/views/LocationAndIpView.vue";
+import LoginLogsView from "@/views/LoginLogsView.vue";
+import SecuritySettingView from "@/views/SecuritySettingsView.vue";
+import ApiKeyView from "@/views/ApiKeyView.vue";
 
 Vue.use(VueRouter)
 
-  const routes: Array<RouteConfig> = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+const routes: Array<RouteConfig> = [
+    {
+        path: '/',
+        name: 'SmsAndEmail',
+        component: SmsAndEmailView
+    },
+    {
+        path: '/location_and_ip',
+        name: 'LocationAndIp',
+        component: LocationAndIpView
+    },
+    {
+        path: '/login_log',
+        name: 'LoginLogs',
+        component: LoginLogsView
+    },
+    {
+        path: '/security_setting',
+        name: 'SecuritySetting',
+        component: SecuritySettingView
+    },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
 
 export default router
