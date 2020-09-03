@@ -15,13 +15,13 @@
             </tr>
             </thead>
             <tbody>
-            <login-log-row :login-log="{
-              ip: '172.217.26.99',
-              is_success: true,
-              date: '2020.06.16 13:24',
-              user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36',
-              address: '09076342727'
-            }"/>
+            <login-log-row v-for="loginLog in loginLogs" :login-log="loginLog"/>
+            <infinite-loading
+                ref="infiniteLoading"
+                spinner="spiral"
+                @infinite="infiniteHandler">
+              <div slot="no-results"/>
+            </infinite-loading>
             </tbody>
           </table>
         </div>
@@ -31,16 +31,30 @@
   </content-wrapper>
 </template>
 
-<script>
-import ContentWrapper from "@/components/ContentWrapper";
-import {Component, Vue} from 'vue-property-decorator'
-import LoginLogRow from "@/components/LoginLogRow";
+<script lang="ts">
+import {Component} from 'vue-property-decorator'
+import {LoginLog} from "@/client/ApiResult";
+import LoginLogRow from "@/components/LoginLogRow.vue";
+import ContentWrapper from "@/components/ContentWrapper.vue";
+import BaseView from "@/views/BaseView.vue";
+import InfiniteLoading from "vue-infinite-loading";
 
 @Component({
-  components: {LoginLogRow, ContentWrapper}
+  components: {LoginLogRow, ContentWrapper, InfiniteLoading}
 })
-export default class LoginLogsView extends Vue {
+export default class LoginLogsView extends BaseView {
+  loginLogs: Array<LoginLog> = [];
+  limit: number = 20;
+  currentPage = 0;
 
+  loadLoginLog(page: number = 0) {
+    //TODO implement
+
+  }
+
+  infiniteHandler() {
+    this.loadLoginLog(this.currentPage + 1);
+  }
 }
 </script>
 

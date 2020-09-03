@@ -8,32 +8,33 @@
           <p>規定回数の連続ログイン失敗でログインをロックします</p>
           <dl class="va_error">
             <dt>ログイン失敗許容回数</dt>
-            <dd>
-              <div class="va_select">
-                <select>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                </select>
-              </div>
-              <input type="submit" value="登録">
-            </dd>
+            <form action="#" v-on:submit.prevent="commitLoginThreshold">
+              <dd>
+                <div class="va_select">
+                  <select v-model="lockThreshold">
+                    <option v-for="thresh in lockThresholds" :value="thresh">{{ thresh }}</option>
+                  </select>
+                </div>
+                <input type="submit" value="登録">
+              </dd>
+            </form>
           </dl>
         </div>
         <div>
           <h3>自動セキュリティ制限</h3>
           <dl class="va_level">
             <dt>セキュリティレベル</dt>
-            <dd>
-              <ul>
-                <li><input type="radio" name="level" id="level01"><label for="level01">0</label></li>
-                <li><input type="radio" name="level" id="level02"><label for="level02">1</label></li>
-                <li><input type="radio" name="level" id="level03"><label for="level03">2</label></li>
-                <li><input type="radio" name="level" id="level04"><label for="level04">3</label></li>
-                <li><input type="radio" name="level" id="level05"><label for="level05">4</label></li>
-                <li><input type="radio" name="level" id="level06"><label for="level06">5</label></li>
-              </ul>
-              <input type="submit" value="登録">
-            </dd>
+            <form action="#" v-on:submit.prevent="commitSecurityLevel">
+              <dd>
+                <ul>
+                  <li v-for="l in levels">
+                    <input type="radio" name="level" v-model="level" :value="l" :id="'level' + l"><label
+                      :for="'level' + l">{{ l }}</label>
+                  </li>
+                </ul>
+                <input type="submit" value="登録">
+              </dd>
+            </form>
           </dl>
         </div>
       </div>
@@ -41,14 +42,32 @@
   </content-wrapper>
 </template>
 
-<script>
-import ContentWrapper from "@/components/ContentWrapper";
+<script lang="ts">
+import ContentWrapper from "@/components/ContentWrapper.vue";
 import {Component, Vue} from 'vue-property-decorator'
 
 @Component({
   components: {ContentWrapper}
 })
 export default class SecuritySettingsView extends Vue {
+  level: number = 0;
+  levels: Array<number> = [0, 1, 2, 3, 4, 5,];
+  lockThreshold = 5;
+  lockThresholds: Array<number> = [5, 10, 15, 20];
+
+  reloadCurrentSetting() {
+    //TODO implement
+  }
+
+  commitLoginThreshold() {
+
+    //TODO implement
+  }
+
+  commitSecurityLevel() {
+
+    //TODO implement
+  }
 }
 </script>
 

@@ -28,9 +28,9 @@
               </tr>
               </thead>
               <tbody>
-              <location-row v-for="restriction in locationRestrictions" :contact="locationRestriction"
+              <location-row v-for="restriction in locationRestrictions" :contact="restriction"
                             v-on:commit="onCommit"
-                            v-on:delete="onDelete" v-bind:key="locationRestriction.id"/>
+                            v-on:delete="onDelete" v-bind:key="restriction.id"/>
               </tbody>
             </table>
           </div>
@@ -59,34 +59,7 @@
               </thead>
               <tbody>
               <ip-address-row v-for="restriction in ipAddressRestrictions" v-bind:key="restriction.id"
-                              restriction="restriction"/>
-              <tr class="on">
-                <td class="va_num">10</td>
-                <td>172.217.26.99</td>
-                <td class="va_ip"><a href="#"></a>許可</td>
-                <td class="btn_area">
-                  <a href="#" class="edit"></a>
-                  <a href="#" class="delete"></a>
-                </td>
-              </tr>
-              <tr>
-                <td class="va_num">10</td>
-                <td>172.217.26.99</td>
-                <td class="va_ip"><a href="#"></a>許可</td>
-                <td class="btn_area">
-                  <a href="#" class="edit"></a>
-                  <a href="#" class="delete"></a>
-                </td>
-              </tr>
-              <tr class="on">
-                <td class="va_num">10</td>
-                <td>172.217.26.99</td>
-                <td class="va_ip"><a href="#"></a>許可</td>
-                <td class="btn_area">
-                  <a href="#" class="edit"></a>
-                  <a href="#" class="delete"></a>
-                </td>
-              </tr>
+                              :restriction="restriction"/>
               </tbody>
             </table>
           </div>
@@ -119,33 +92,8 @@
               </tr>
               </thead>
               <tbody>
-              <tr class="on">
-                <td class="va_num">10</td>
-                <td>コロンビア</td>
-                <td class="va_ip"><a href="#"></a>許可</td>
-                <td class="btn_area">
-                  <a href="#" class="edit"></a>
-                  <a href="#" class="delete"></a>
-                </td>
-              </tr>
-              <tr>
-                <td class="va_num">10</td>
-                <td>コロンビア</td>
-                <td class="va_ip"><a href="#"></a>許可</td>
-                <td class="btn_area">
-                  <a href="#" class="edit"></a>
-                  <a href="#" class="delete"></a>
-                </td>
-              </tr>
-              <tr class="on">
-                <td class="va_num">10</td>
-                <td>コロンビア</td>
-                <td class="va_ip"><a href="#"></a>許可</td>
-                <td class="btn_area">
-                  <a href="#" class="edit"></a>
-                  <a href="#" class="delete"></a>
-                </td>
-              </tr>
+              <country-row v-for="restriction in countryRestrictions" v-bind:key="restriction.id"
+                           :restriction="restriction"/>
               </tbody>
             </table>
           </div>
@@ -168,9 +116,10 @@ import {LocalizedCountryNames} from "i18n-iso-countries";
 import LocationRow from "@/components/LocationRow.vue";
 import {Contact, CountryRestriction, IpAddressRestriction} from "@/client/ApiResult";
 import IpAddressRow from "@/components/IpAddressRow.vue";
+import CountryRow from "@/components/CountryRow.vue";
 
 @Component({
-  components: {IpAddressRow, LocationRow, ContentWrapper}
+  components: {CountryRow, IpAddressRow, LocationRow, ContentWrapper}
 })
 export default class LocationAndIpView extends BaseView {
   prefecture: string = '';
@@ -182,14 +131,25 @@ export default class LocationAndIpView extends BaseView {
 
   created() {
     this.$eventBus.$once('api-client-initialized', () => {
-
+          this.reloadCountryRestrictions();
+          this.reloadIpAddressRestrictions();
+          this.reloadLocationRestrictions();
         }
     );
   }
 
-  reloadLocationRestrictions() {
+  reloadLocationRestrictions(loader?: any) {
 
   }
+
+  reloadIpAddressRestrictions(loader?: any) {
+
+  }
+
+  reloadCountryRestrictions(loader?: any) {
+
+  }
+
 
   get country_options(): LocalizedCountryNames {
     return i18nCountries.getNames('ja');
