@@ -51,7 +51,8 @@
               </tr>
               </thead>
               <tbody>
-              <contact-row v-for="contact in emailContacts" :contact="contact"/>
+              <contact-row v-for="contact in emailContacts" :contact="contact" v-on:commit="onCommit"
+                           v-on:delete="onDelete"/>
               </tbody>
             </table>
           </div>
@@ -103,8 +104,7 @@ export default class SmsAndEmailView extends Vue {
     }
     let loader = this.$loading.show();
     apiClient.process(input, PostContactEndpoint).then(result => {
-      loader.hide();
-      this.reloadPhoneNumbers();
+      this.reloadPhoneNumbers(loader);
       this.phoneNumber = '';
     }).catch(reason => {
       this.handleErrors(reason, loader);
@@ -112,12 +112,12 @@ export default class SmsAndEmailView extends Vue {
   }
 
 
-  reloadPhoneNumbers() {
+  reloadPhoneNumbers(loader?: Loading) {
     let apiClient = this.$apiClient as ApiClient;
     let input = <GetContactInput>{
       send_kbn: SendKbn.Sms
     }
-    let loader = this.$loading.show();
+    loader = loader ?? this.$loading.show();
     apiClient.process(input, GetContactEndpoint).then(result => {
       this.smsContacts = result.results.customer_contacts;
       loader.hide();
@@ -135,20 +135,20 @@ export default class SmsAndEmailView extends Vue {
     let loader = this.$loading.show();
     apiClient.process(input, PostContactEndpoint).then(result => {
       console.log(result);
-      loader.hide();
-      this.reloadEmails();
+      this.reloadEmails(loader);
       this.email = ''
     }).catch(reason => {
       this.handleErrors(reason, loader);
     })
   }
 
-  reloadEmails() {
+  reloadEmails(loader?: Loading) {
     let apiClient = this.$apiClient as ApiClient;
     let input = <GetContactInput>{
       send_kbn: SendKbn.Email
     }
-    let loader = this.$loading.show();
+
+    loader = loader ?? this.$loading.show();
     apiClient.process(input, GetContactEndpoint).then(result => {
       this.emailContacts = result.results.customer_contacts;
       loader.hide();
@@ -168,9 +168,9 @@ export default class SmsAndEmailView extends Vue {
     let loader = this.$loading.show();
     apiClient.process(input, PutContactEndpoint).then(result => {
       if (contact.send_kbn == SendKbn.Email) {
-        this.reloadEmails();
+        this.reloadEmails(loader);
       } else {
-        this.reloadPhoneNumbers();
+        this.reloadPhoneNumbers(loader);
       }
     }).catch(reason => {
       this.handleErrors(reason, loader);
@@ -187,9 +187,9 @@ export default class SmsAndEmailView extends Vue {
         let loader = this.$loading.show();
         apiClient.process(input, DeleteContactEndpoint).then(result => {
           if (contact.send_kbn == SendKbn.Email) {
-            this.reloadEmails();
+            this.reloadEmails(loader);
           } else {
-            rethi.reloadPhoneNumbers();
+            this.reloadPhoneNumbers(loader);
           }
         }).catch(reason => {
           this.handleErrors(reason, loader);
@@ -199,6 +199,7 @@ export default class SmsAndEmailView extends Vue {
   }
 
   handleErrors(reason: any, loader: Loading) {
+    console.log(reason);
     let error = parseApiError(reason);
     console.log(error);
     loader.hide();
