@@ -8,14 +8,14 @@
         <div class="edit_area">
           <input :type="contact.send_kbn === 1 ? 'tel' : 'email'" v-model="label"/>
           <input type="submit" value="保存">
-          <a href="#" class="close" v-on:click="toggleEdit"></a>
+          <a href="#" class="close" v-on:click.prevent="toggleEdit"></a>
         </div>
       </form>
     </td>
 
     <td class="btn_area" v-if="!editing">
-      <a href="#" class="edit" v-on:click="toggleEdit"></a>
-      <a href="#" class="delete" v-on:click="askDeletion"></a>
+      <a href="#" class="edit" v-on:click.prevent="toggleEdit"></a>
+      <a href="#" class="delete" v-on:click.prevent="askDeletion"></a>
     </td>
   </tr>
 </template>
@@ -37,10 +37,6 @@ export default class ContactRow extends DataRow{
 
   set label(newLabel: string | undefined) {
     this.contact.address = newLabel;
-  }
-
-  get id(): string {
-    return this.contact.id.toString();
   }
 
   get dataInstance(): Model | undefined {

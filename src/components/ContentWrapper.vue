@@ -685,6 +685,7 @@ export default class ContentWrapper extends Vue {
 /deep/ .va_cont .edit_area input[type=tel],
 /deep/ .va_cont .edit_area input[type=email],
 /deep/ .va_cont .edit_area input[type=submit],
+/deep/ .va_cont .edit_area select,
 /deep/ .va_cont .edit_area .close {
   height: 28px;
   margin: 0;
@@ -692,7 +693,8 @@ export default class ContentWrapper extends Vue {
 
 /deep/ .va_cont .edit_area input[type=text],
 /deep/ .va_cont .edit_area input[type=tel],
-/deep/ .va_cont .edit_area input[type=email]
+/deep/ .va_cont .edit_area input[type=email],
+/deep/ .va_cont .edit_area select
 {
   width: calc(100% - 92px);
   min-height: auto;

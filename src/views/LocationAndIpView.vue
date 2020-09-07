@@ -9,7 +9,7 @@
             <form action="#" v-on:submit.prevent="addLocationRestriction">
               <div>
                 <select v-model="prefecture">
-                  <option v-for="prefecture_option in prefecture_options" v-bind:value="prefecture_option.id"
+                  <option v-for="prefecture_option in prefectureOptions" v-bind:value="prefecture_option.id"
                           v-bind:key="prefecture_option.id">
                     {{ prefecture_option.name }}
                   </option>
@@ -59,8 +59,8 @@
               </tr>
               </thead>
               <tbody>
-              <ip-address-row v-for="restriction in ipAddressRestrictions" v-bind:key="restriction.id"
-                              :restriction="restriction" v-on:commit="onCommitIpAddressRestrictionUpdate"
+              <ip-address-row v-for="ipAddress in ipAddressRestrictions" v-bind:key="ipAddress.id"
+                              :ipAddress="ipAddress" v-on:commit="onCommitIpAddressRestrictionUpdate"
                               v-on:delete="onDeleteIpAddressRestriction"/>
               </tbody>
             </table>
@@ -74,9 +74,9 @@
             <form action="#" v-on:submit.prevent="addCountryRestriction">
               <div>
                 <select v-model="country">
-                  <option v-for="code in Object.keys(country_options)" v-bind:value="code"
+                  <option v-for="code in Object.keys(countryOptions)" v-bind:value="code"
                           v-bind:key="code">
-                    {{ country_options[code] }}
+                    {{ countryOptions[code] }}
                   </option>
                 </select>
                 <input type="submit" value="追加">
@@ -94,8 +94,8 @@
               </tr>
               </thead>
               <tbody>
-              <country-row v-for="restriction in countryRestrictions" v-bind:key="restriction.id"
-                           :restriction="restriction" v-on:commit="onCommitCountryRestrictionUpdate"
+              <country-row v-for="country in countryRestrictions" v-bind:key="country.id"
+                           :country="country" v-on:commit="onCommitCountryRestrictionUpdate"
                            v-on:delete="onDeleteCountryRestriction"/>
               </tbody>
             </table>
@@ -117,21 +117,32 @@ import * as i18nCountries from "i18n-iso-countries";
 import {LocalizedCountryNames} from "i18n-iso-countries";
 import * as jpPrefecture from 'jp-prefecture';
 import LocationRow from "@/components/LocationRow.vue";
-import {Contact, CountryRestriction, IpAddressRestriction, LocationRestriction} from "@/client/ApiResult";
+import {CountryRestriction, IpAddressRestriction, LocationRestriction} from "@/client/ApiResult";
 import IpAddressRow from "@/components/IpAddressRow.vue";
 import CountryRow from "@/components/CountryRow.vue";
 import {
   AccessKbn,
+  DeleteLocationRestrictionInput,
   LocationKbn,
   PostCountryRestrictionInput,
   PostIpAddressRestrictionInput,
-  PostLocationRestrictionInput
+  PostLocationRestrictionInput,
+  PutCountryRestrictionInput,
+  PutIpAddressRestrictionInput,
+  PutLocationRestrictionInput
 } from "@/client/ApiInput";
 import {
+  DeleteIpAddressRestrictionEndpoint,
+  DeleteLocationRestrictionEndpoint,
   GetCountryRestrictionEndpoint,
   GetIpAddressRestrictionEndpoint,
-  GetLocationRestrictionEndpoint, PostCountryRestrictionEndpoint, PostIpAddressRestrictionEndpoint,
-  PostLocationRestrictionEndpoint
+  GetLocationRestrictionEndpoint,
+  PostCountryRestrictionEndpoint,
+  PostIpAddressRestrictionEndpoint,
+  PostLocationRestrictionEndpoint,
+  PutCountryRestrictionEndpoint,
+  PutIpAddressRestrictionEndpoint,
+  PutLocationRestrictionEndpoint
 } from "@/client/ApiEndpoint";
 
 @Component({
@@ -156,7 +167,6 @@ export default class LocationAndIpView extends BaseView {
     loader = loader ?? this.showLoading();
     this.apiClient.process({}, GetLocationRestrictionEndpoint).then(result => {
       this.locationRestrictions = result.results.customer_locations;
-      console.log(this.locationRestrictions);
       loader.hide();
     }).catch(reason => {
       this.handleErrors(reason, loader);
@@ -166,7 +176,7 @@ export default class LocationAndIpView extends BaseView {
   reloadIpAddressRestrictions(loader?: any) {
     loader = loader ?? this.showLoading();
     this.apiClient.process({}, GetIpAddressRestrictionEndpoint).then(result => {
-      this.ipAddressRestrictions = result.results.customer_ips;
+      this.ipAddressRestrictions = result.results.customer_ip;
       loader.hide();
     }).catch(reason => {
       this.handleErrors(reason, loader);
@@ -176,7 +186,7 @@ export default class LocationAndIpView extends BaseView {
   reloadCountryRestrictions(loader?: any) {
     loader = loader ?? this.showLoading();
     this.apiClient.process({}, GetCountryRestrictionEndpoint).then(result => {
-      this.countryRestrictions = result.results.customer_overseas;
+      this.countryRestrictions = result.results.customer_oversea;
       loader.hide();
     }).catch(reason => {
       this.handleErrors(reason, loader);
@@ -232,37 +242,113 @@ export default class LocationAndIpView extends BaseView {
     }
   }
 
-  onCommitLocationRestrictionUpdate() {
-    // TODO implement
+  onCommitLocationRestrictionUpdate(locationRestriction: LocationRestriction) {
+    let input = <PutLocationRestrictionInput>{
+      id: locationRestriction.id,
+      location_kbn: locationRestriction.location_kbn,
+      state: locationRestriction.state,
+      city: locationRestriction.city,
+      memo: locationRestriction.memo
+    }
+    let loader = this.showLoading();
+    this.apiClient.process(input, PutLocationRestrictionEndpoint).then(result => {
+      this.reloadLocationRestrictions(loader);
+    }).catch(reason => {
+      this.handleErrors(reason, loader);
+    })
   }
 
-  onCommitIpAddressRestrictionUpdate() {
-    // TODO implement
+  onCommitIpAddressRestrictionUpdate(ipAddressRestriction: IpAddressRestriction) {
+    let input = <PutIpAddressRestrictionInput>{
+      id: ipAddressRestriction.id,
+      ip: ipAddressRestriction.ip,
+      access_kbn: ipAddressRestriction.access_kbn
+    }
+    let loader = this.showLoading();
+    this.apiClient.process(input, PutIpAddressRestrictionEndpoint).then(result => {
+      this.reloadIpAddressRestrictions(loader);
+    }).catch(reason => {
+      this.handleErrors(reason, loader);
+    })
   }
 
-  onCommitCountryRestrictionUpdate() {
-    // TODO implement
+  onCommitCountryRestrictionUpdate(countryRestriction: CountryRestriction) {
+    let input = <PutCountryRestrictionInput>{
+      id: countryRestriction.id,
+      country: countryRestriction.country,
+      access_kbn: countryRestriction.access_kbn
+    }
+    let loader = this.showLoading();
+    this.apiClient.process(input, PutCountryRestrictionEndpoint).then(result => {
+      this.reloadCountryRestrictions(loader);
+    }).catch(reason => {
+      this.handleErrors(reason, loader);
+    })
   }
 
 
-  onDeleteLocationRestriction() {
-    // TODO implement
+  onDeleteLocationRestriction(locationRestriction: LocationRestriction) {
+    this.$confirm(`${this.nameOfPrefecture(parseInt(locationRestriction.state!))} を削除してよろしいですか?`).then(confirmed => {
+      if (confirmed) {
+        let input = <DeleteLocationRestrictionInput>{
+          id: locationRestriction.id,
+        }
+        let loader = this.showLoading();
+        this.apiClient.process(input, DeleteLocationRestrictionEndpoint).then(result => {
+          this.reloadLocationRestrictions(loader);
+        }).catch(reason => {
+          this.handleErrors(reason, loader);
+        })
+      }
+    });
   }
 
-  onDeleteIpAddressRestriction() {
-    // TODO implement
+  onDeleteIpAddressRestriction(ipAddressRestriction: IpAddressRestriction) {
+    this.$confirm(`${ipAddressRestriction.ip} を削除してよろしいですか?`).then(confirmed => {
+      if (confirmed) {
+        let input = <DeleteLocationRestrictionInput>{
+          id: ipAddressRestriction.id,
+        }
+        let loader = this.showLoading();
+        this.apiClient.process(input, DeleteIpAddressRestrictionEndpoint).then(result => {
+          this.reloadLocationRestrictions(loader);
+        }).catch(reason => {
+          this.handleErrors(reason, loader);
+        })
+      }
+    });
   }
 
-  onDeleteCountryRestriction() {
-    // TODO implement
+  onDeleteCountryRestriction(countryRestriction: CountryRestriction) {
+    this.$confirm(`${this.nameOfCountry(countryRestriction.country!)} を削除してよろしいですか?`).then(confirmed => {
+      if (confirmed) {
+        let input = <DeleteLocationRestrictionInput>{
+          id: countryRestriction.id,
+        }
+        let loader = this.showLoading();
+        this.apiClient.process(input, DeleteLocationRestrictionEndpoint).then(result => {
+          this.reloadCountryRestrictions(loader);
+        }).catch(reason => {
+          this.handleErrors(reason, loader);
+        })
+      }
+    });
   }
 
-  get country_options(): LocalizedCountryNames {
+  get countryOptions(): LocalizedCountryNames {
     return i18nCountries.getNames('ja');
   }
 
-  get prefecture_options(): Prefecture[] {
+  get prefectureOptions(): Prefecture[] {
     return jpPrefecture.getAll("pref", ["id", "name"])
+  }
+
+  nameOfPrefecture(code: number): string | undefined {
+    return jpPrefecture.prefFindBy("id", code)?.name;
+  }
+
+  nameOfCountry(code: string): string | undefined {
+    return i18nCountries.getName(code, 'ja');
   }
 }
 </script>

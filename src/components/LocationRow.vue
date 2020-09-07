@@ -11,7 +11,7 @@
         </select>
       </form>
     </td>
-    <td class="btn_area one"><a href="#" class="delete" v-on:click="askDeletion"></a></td>
+    <td class="btn_area one"><a href="#" class="delete" v-on:click.prevent="askDeletion"></a></td>
   </tr>
 </template>
 
@@ -33,10 +33,6 @@ export default class LocationRow extends DataRow {
 
   set label(newLabel: string | undefined) {
     this.location.state = newLabel;
-  }
-
-  get id(): string {
-    return this.location.id.toString();
   }
 
   get dataInstance(): Model | undefined {

@@ -19,8 +19,8 @@ export default class DataRow extends Vue {
     //Implement in subclass
   }
 
-  get id(): string {
-    return '';
+  get id(): number | undefined {
+    return this.dataInstance?.id;
   }
 
   toggleEdit() {
@@ -36,9 +36,13 @@ export default class DataRow extends Vue {
   }
 
   commit() {
-    this.toggleEdit();
+    if (this.editing) {
+      this.toggleEdit();
+    }
     this.$emit('commit', this.dataInstance);
   }
+
+
 }
 </script>
 

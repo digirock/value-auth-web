@@ -15,7 +15,7 @@
             </tr>
             </thead>
             <tbody>
-            <login-log-row v-for="loginLog in loginLogs" :login-log="loginLog"/>
+            <login-log-row v-for="loginLog in loginLogs" :login-log="loginLog" v-bind:key="loginLog.id"/>
             <infinite-loading
                 ref="infiniteLoading"
                 spinner="spiral"
