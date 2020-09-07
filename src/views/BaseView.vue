@@ -18,7 +18,9 @@ export default class BaseView extends Vue {
     console.log(reason);
     let error = parseApiError(reason);
     console.log(error);
-    loader.hide();
+    if (loader){
+      loader.hide();
+    }
     let message = Object.values(error.errors.message).join('\n');
     this.$alert(message);
   }
@@ -27,7 +29,7 @@ export default class BaseView extends Vue {
     return this.$apiClient as ApiClient;
   }
 
-  protected isApiClientInitialized(): boolean {
+  protected get isApiClientInitialized(): boolean {
     return this.apiClient.accessToken != undefined;
   }
 
@@ -43,7 +45,7 @@ export default class BaseView extends Vue {
   }
 
   protected mounted() {
-    if (this.isApiClientInitialized()) {
+    if (this.isApiClientInitialized) {
       this.reload();
     }
   }

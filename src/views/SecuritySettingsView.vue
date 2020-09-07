@@ -67,7 +67,7 @@ export default class SecuritySettingsView extends BaseView {
   }
 
   reloadCurrentSetting(loader?: any) {
-    loader = loader ? loader : this.showLoading();
+    loader = loader ?? this.showLoading();
     this.apiClient.process({}, GetCustomerSettingEndpoint).then(result => {
       this.setting = result.results.customer_setting;
       this.lockThreshold = this.setting.max_attempts;

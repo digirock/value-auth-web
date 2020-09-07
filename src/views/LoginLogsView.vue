@@ -19,13 +19,12 @@
             <infinite-loading
                 ref="infiniteLoading"
                 spinner="spiral"
-                @infinite="infiniteHandler">
+                @infinite="infiniteHandler" v-if="hasNextPage">
               <div slot="no-results"/>
             </infinite-loading>
             </tbody>
           </table>
         </div>
-        <p class="spover_txt"><span>表が見切れている場合、横スクロールできます</span></p>
       </div>
     </div>
   </content-wrapper>
@@ -38,6 +37,9 @@ import LoginLogRow from "@/components/LoginLogRow.vue";
 import ContentWrapper from "@/components/ContentWrapper.vue";
 import BaseView from "@/views/BaseView.vue";
 import InfiniteLoading from "vue-infinite-loading";
+import {GetLoginLogEndpoint, PostLoginLogEndpoint} from "@/client/ApiEndpoint";
+import {GetLoginLogInput, PostLoginLogInput} from "@/client/ApiInput";
+import * as ipify from "ipify2";
 
 @Component({
   components: {LoginLogRow, ContentWrapper, InfiniteLoading}
@@ -45,15 +47,65 @@ import InfiniteLoading from "vue-infinite-loading";
 export default class LoginLogsView extends BaseView {
   loginLogs: Array<LoginLog> = [];
   limit: number = 20;
-  currentPage = 0;
+  currentPage = 1;
+  lastPage: number = Number.MAX_SAFE_INTEGER;
+  total: number = Number.MAX_SAFE_INTEGER;
 
-  loadLoginLog(page: number = 0) {
-    //TODO implement
+  get hasNextPage(): boolean {
+    return this.lastPage > this.currentPage;
+  }
 
+  reset() {
+    this.currentPage = 1;
+    this.lastPage = Number.MAX_SAFE_INTEGER;
+    this.total = Number.MAX_SAFE_INTEGER;
+  }
+
+  reload() {
+    this.reset();
+    this.loadLoginLog();
+  }
+
+  loadLoginLog(page: number = 0, loader?: any) {
+    // if (this.hasNextPage){
+    //   this.debugRegisterLoginLog();
+    // }
+    let input = <GetLoginLogInput>{
+      page: page,
+      limit: this.limit,
+    }
+    loader = loader ?? this.showLoading();
+    this.apiClient.process(input, GetLoginLogEndpoint).then(result => {
+      console.log(result);
+      this.loginLogs = result.results.customer_login_logs;
+      this.lastPage = result.results.last_page;
+      this.currentPage = result.results.page;
+      this.total = result.results.total;
+      loader.hide();
+    }).catch(reason => {
+      this.handleErrors(reason, loader);
+    });
   }
 
   infiniteHandler() {
-    this.loadLoginLog(this.currentPage + 1);
+    if (this.hasNextPage && this.isApiClientInitialized) {
+      this.loadLoginLog(this.currentPage + 1);
+    }
+  }
+
+  debugRegisterLoginLog(){
+    ipify.ipv4().then(ipv4 => {
+      let input = <PostLoginLogInput>{
+        ip: ipv4,
+        user_agent: navigator.userAgent,
+        is_success: true
+      };
+      this.apiClient.process(input, PostLoginLogEndpoint).then(result =>{
+        console.log(result);
+      }).catch(reason => {
+        console.log(reason);
+      })
+    });
   }
 }
 </script>
