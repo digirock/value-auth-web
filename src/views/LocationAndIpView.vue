@@ -132,6 +132,7 @@ import {
   PutLocationRestrictionInput
 } from "@/client/ApiInput";
 import {
+  DeleteCountryRestrictionEndpoint,
   DeleteIpAddressRestrictionEndpoint,
   DeleteLocationRestrictionEndpoint,
   GetCountryRestrictionEndpoint,
@@ -311,7 +312,7 @@ export default class LocationAndIpView extends BaseView {
         }
         let loader = this.showLoading();
         this.apiClient.process(input, DeleteIpAddressRestrictionEndpoint).then(result => {
-          this.reloadLocationRestrictions(loader);
+          this.reloadIpAddressRestrictions(loader);
         }).catch(reason => {
           this.handleErrors(reason, loader);
         })
@@ -326,7 +327,7 @@ export default class LocationAndIpView extends BaseView {
           id: countryRestriction.id,
         }
         let loader = this.showLoading();
-        this.apiClient.process(input, DeleteLocationRestrictionEndpoint).then(result => {
+        this.apiClient.process(input, DeleteCountryRestrictionEndpoint).then(result => {
           this.reloadCountryRestrictions(loader);
         }).catch(reason => {
           this.handleErrors(reason, loader);

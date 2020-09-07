@@ -2,11 +2,11 @@
   <tr :class="country.access_kbn === 1 ? 'on' : ''">
     <td class="va_num">{{ id }}</td>
 
-    <td v-if="!editing">{{ label }}</td>
+    <td v-if="!editing">{{ countryName }}</td>
     <td v-else>
       <form action="#" v-on:submit.prevent="commit">
         <div class="edit_area">
-          <select v-model="country">
+          <select v-model="label">
             <option v-for="code in Object.keys(country_options)" v-bind:value="code"
                     v-bind:key="code">
               {{ country_options[code] }}
@@ -18,7 +18,7 @@
       </form>
     </td>
     <td class="va_ip " v-if="!editing"><a href="#" v-on:click.prevent="toggleAccess"/>
-      {{ ipAddress.access_kbn === 1 ? '許可' : '拒否' }}
+      {{ country.access_kbn === 1 ? '許可' : '拒否' }}
     </td>
     <td class="btn_area" v-if="!editing">
       <a href="#" class="edit" v-on:click.prevent="toggleEdit"></a>
@@ -40,8 +40,12 @@ import {AccessKbn} from "@/client/ApiInput";
 export default class CountryRow extends DataRow {
   @Prop({type: Object as PropType<CountryRestriction>}) country!: CountryRestriction;
 
-  get label(): string | undefined {
+  get countryName(): string | undefined {
     return i18nCountries.getName(this.country.country!, 'ja');
+  }
+
+  get label(): string | undefined {
+    return this.country.country;
   }
 
   set label(newLabel: string | undefined) {
