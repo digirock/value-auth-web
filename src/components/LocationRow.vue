@@ -16,19 +16,31 @@
 </template>
 
 <script lang="ts">
-import {Component} from "vue-property-decorator";
-import ContactRow from "@/components/ContactRow.vue";
+import {Component, Prop} from "vue-property-decorator";
 import * as jpPrefecture from 'jp-prefecture';
 import {Prefecture} from "@/utils/Prefecture";
+import DataRow from "@/components/DataRow.vue";
+import {LocationRestriction, Model} from "@/client/ApiResult";
+import {PropType} from "vue";
 
-@Component
-export default class LocationRow extends ContactRow {
+@Component({})
+export default class LocationRow extends DataRow {
+  @Prop({type: Object as PropType<LocationRestriction>}) location!: LocationRestriction;
+
   get label(): string | undefined {
-    return jpPrefecture.prefFindBy("id", this.contact.state).name;
+    return jpPrefecture.prefFindBy("id", parseInt(this.location.state!))?.name;
   }
 
   set label(newLabel: string | undefined) {
-    this.contact.state = newLabel;
+    this.location.state = newLabel;
+  }
+
+  get id(): string {
+    return this.location.id.toString();
+  }
+
+  get dataInstance(): Model | undefined {
+    return this.location;
   }
 
   get prefecture_options(): Prefecture[] {

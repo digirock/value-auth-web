@@ -22,7 +22,6 @@
               </tr>
               </thead>
               <tbody>
-
               <contact-row v-for="contact in smsContacts" :contact="contact" v-on:commit="onCommit"
                            v-on:delete="onDelete" v-bind:key="contact.id"/>
               </tbody>
@@ -63,20 +62,16 @@
 </template>
 
 <script lang="ts">
-import {Component} from "vue-property-decorator";
+import {Component, Vue} from "vue-property-decorator";
 import ContentWrapper from "@/components/ContentWrapper.vue";
 import {DeleteContactInput, GetContactInput, PostContactInput, PutContactInput, SendKbn} from "@/client/ApiInput";
 import {DeleteContactEndpoint, GetContactEndpoint, PostContactEndpoint, PutContactEndpoint} from "@/client/ApiEndpoint";
-import ApiClient from "@/client/ApiClient";
 import {Contact} from "@/client/ApiResult";
 import BaseView from "@/views/BaseView.vue";
-import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import VueSimpleAlert from "vue-simple-alert";
-import {Vue} from "vue-property-decorator"
 import ContactRow from "@/components/ContactRow.vue";
 
-Vue.use(Loading);
 Vue.use(VueSimpleAlert);
 @Component({
   components: {ContentWrapper, ContactRow}
@@ -87,23 +82,19 @@ export default class SmsAndEmailView extends BaseView {
   smsContacts: Array<Contact> = [];
   emailContacts: Array<Contact> = [];
 
-  created() {
-    this.$eventBus.$once('api-client-initialized', () => {
-          this.reloadPhoneNumbers();
-          this.reloadEmails();
-        }
-    );
+  reload() {
+    this.reloadPhoneNumbers();
+    this.reloadEmails();
   }
 
   addPhoneNumber() {
-    let apiClient = this.$apiClient as ApiClient;
     let input = <PostContactInput>{
-      customer_key: apiClient.currentCustomerKey!,
+      customer_key: this.apiClient.currentCustomerKey!,
       address: this.phoneNumber,
       send_kbn: SendKbn.Sms
     }
-    let loader = this.$loading.show();
-    apiClient.process(input, PostContactEndpoint).then(result => {
+    let loader = this.showLoading();
+    this.apiClient.process(input, PostContactEndpoint).then(result => {
       this.reloadPhoneNumbers(loader);
       this.phoneNumber = '';
     }).catch(reason => {
@@ -113,12 +104,11 @@ export default class SmsAndEmailView extends BaseView {
 
 
   reloadPhoneNumbers(loader?: any) {
-    let apiClient = this.$apiClient as ApiClient;
     let input = <GetContactInput>{
       send_kbn: SendKbn.Sms
     }
-    loader = loader ?? this.$loading.show();
-    apiClient.process(input, GetContactEndpoint).then(result => {
+    loader = loader ?? this.showLoading();
+    this.apiClient.process(input, GetContactEndpoint).then(result => {
       this.smsContacts = result.results.customer_contacts;
       loader.hide();
     }).catch(reason => {
@@ -127,13 +117,12 @@ export default class SmsAndEmailView extends BaseView {
   }
 
   addEmail() {
-    let apiClient = this.$apiClient as ApiClient;
     let input = <PostContactInput>{
       address: this.email,
       send_kbn: SendKbn.Email
     }
-    let loader = this.$loading.show();
-    apiClient.process(input, PostContactEndpoint).then(result => {
+    let loader = this.showLoading();
+    this.apiClient.process(input, PostContactEndpoint).then(result => {
       console.log(result);
       this.reloadEmails(loader);
       this.email = ''
@@ -143,13 +132,12 @@ export default class SmsAndEmailView extends BaseView {
   }
 
   reloadEmails(loader?: any) {
-    let apiClient = this.$apiClient as ApiClient;
     let input = <GetContactInput>{
       send_kbn: SendKbn.Email
     }
 
-    loader = loader ?? this.$loading.show();
-    apiClient.process(input, GetContactEndpoint).then(result => {
+    loader = loader ?? this.showLoading();
+    this.apiClient.process(input, GetContactEndpoint).then(result => {
       this.emailContacts = result.results.customer_contacts;
       loader.hide();
     }).catch(reason => {
@@ -158,15 +146,14 @@ export default class SmsAndEmailView extends BaseView {
   }
 
   onCommit(contact: Contact) {
-    let apiClient = this.$apiClient as ApiClient;
     let input = <PutContactInput>{
       id: contact.id,
       address: contact.address,
       send_kbn: contact.send_kbn
     }
 
-    let loader = this.$loading.show();
-    apiClient.process(input, PutContactEndpoint).then(result => {
+    let loader = this.showLoading();
+    this.apiClient.process(input, PutContactEndpoint).then(result => {
       if (contact.send_kbn == SendKbn.Email) {
         this.reloadEmails(loader);
       } else {
@@ -180,12 +167,11 @@ export default class SmsAndEmailView extends BaseView {
   onDelete(contact: Contact) {
     this.$confirm(`${contact.address} を削除してよろしいですか?`).then(confirmed => {
       if (confirmed) {
-        let apiClient = this.$apiClient as ApiClient;
         let input = <DeleteContactInput>{
           id: contact.id,
         }
-        let loader = this.$loading.show();
-        apiClient.process(input, DeleteContactEndpoint).then(result => {
+        let loader = this.showLoading();
+        this.apiClient.process(input, DeleteContactEndpoint).then(result => {
           if (contact.send_kbn == SendKbn.Email) {
             this.reloadEmails(loader);
           } else {

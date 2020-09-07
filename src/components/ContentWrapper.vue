@@ -573,19 +573,19 @@ export default class ContentWrapper extends Vue {
     margin: 36px 0 12px;
   }
 
-  .va_add {
+  /deep/ .va_add {
     margin: 0 0 30px;
     padding: 0 16px;
   }
 
-  .va_add input[type="submit"] {
+  /deep/ .va_add input[type="submit"] {
     width: 80px;
     font-size: 14px;
     transition: background 0.3s ease-in-out 0s,
     border 0.3s ease-in-out 0s;
   }
 
-  .va_add input[type="submit"]:hover {
+  /deep/ .va_add input[type="submit"]:hover {
     background: url("~@/assets/va_add.png") no-repeat 12px 12px,
     #25B1B1;
     border: #25B1B1 1px solid;
@@ -672,6 +672,53 @@ export default class ContentWrapper extends Vue {
     font-size: 16px;
   }
 }
+
+
+/* edit_area */
+/deep/ .va_cont .edit_area {
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+/deep/ .va_cont .edit_area input[type=text],
+/deep/ .va_cont .edit_area input[type=tel],
+/deep/ .va_cont .edit_area input[type=email],
+/deep/ .va_cont .edit_area input[type=submit],
+/deep/ .va_cont .edit_area .close {
+  height: 28px;
+  margin: 0;
+}
+
+/deep/ .va_cont .edit_area input[type=text],
+/deep/ .va_cont .edit_area input[type=tel],
+/deep/ .va_cont .edit_area input[type=email]
+{
+  width: calc(100% - 92px);
+  min-height: auto;
+  padding: 0 8px;
+  border: #86affe 1px solid;
+  border-radius: 4px 0 0 4px;
+}
+
+/deep/ .va_cont .edit_area input[type=submit] {
+  width: 60px;
+  padding-top: 4px;
+  font-size: 13px;
+  outline: none;
+  border-radius: 0;
+}
+
+/deep/ .va_cont .edit_area .close {
+  display: block;
+  background: url("~@/assets/va_close.png") no-repeat center 9px, #eee;
+  background-size: 10px !important;
+  width: 32px;
+  border-radius: 0 4px 4px 0;
+  transition: background 0.3s ease-in-out 0s;
+}
+
+
 
 </style>
 

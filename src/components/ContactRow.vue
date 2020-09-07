@@ -5,11 +5,15 @@
     <td v-if="!editing">{{ label }}</td>
     <td v-else>
       <form action="#" v-on:submit.prevent="commit">
-        <input :type="contact.send_kbn === 1 ? 'tel' : 'email'" v-model="label"/>
+        <div class="edit_area">
+          <input :type="contact.send_kbn === 1 ? 'tel' : 'email'" v-model="label"/>
+          <input type="submit" value="保存">
+          <a href="#" class="close" v-on:click="toggleEdit"></a>
+        </div>
       </form>
     </td>
 
-    <td class="btn_area">
+    <td class="btn_area" v-if="!editing">
       <a href="#" class="edit" v-on:click="toggleEdit"></a>
       <a href="#" class="delete" v-on:click="askDeletion"></a>
     </td>

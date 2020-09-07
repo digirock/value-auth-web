@@ -6,7 +6,7 @@
           <h2>都道府県ごとの認証設定</h2>
           <div class="va_add select">
             <p>新規追加</p>
-            <form action="#">
+            <form action="#" v-on:submit.prevent="addLocationRestriction">
               <div>
                 <select v-model="prefecture">
                   <option v-for="prefecture_option in prefecture_options" v-bind:value="prefecture_option.id"
@@ -28,9 +28,9 @@
               </tr>
               </thead>
               <tbody>
-              <location-row v-for="restriction in locationRestrictions" :contact="restriction"
-                            v-on:commit="onCommit"
-                            v-on:delete="onDelete" v-bind:key="restriction.id"/>
+              <location-row v-for="location in locationRestrictions" :location="location"
+                            v-on:commit="onCommitLocationRestrictionUpdate"
+                            v-on:delete="onDeleteLocationRestriction" v-bind:key="location.id"/>
               </tbody>
             </table>
           </div>
@@ -40,9 +40,10 @@
           <h2>IPアドレス制限の設定</h2>
           <div class="va_add">
             <p>新規追加</p>
-            <form action="#">
+            <form action="#" v-on:submit.prevent="addIpAddressRestriction">
               <div>
-                <input type="text" placeholder="IPアドレスを入力">
+                <input type="text" placeholder="IPアドレスを入力" v-model="ipAddress" minlength="7" maxlength="15" size="15"
+                       pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$">
                 <input type="submit" value="追加">
               </div>
             </form>
@@ -59,7 +60,8 @@
               </thead>
               <tbody>
               <ip-address-row v-for="restriction in ipAddressRestrictions" v-bind:key="restriction.id"
-                              :restriction="restriction"/>
+                              :restriction="restriction" v-on:commit="onCommitIpAddressRestrictionUpdate"
+                              v-on:delete="onDeleteIpAddressRestriction"/>
               </tbody>
             </table>
           </div>
@@ -69,7 +71,7 @@
           <h2>国別制限の設定</h2>
           <div class="va_add select">
             <p>新規追加</p>
-            <form action="#">
+            <form action="#" v-on:submit.prevent="addCountryRestriction">
               <div>
                 <select v-model="country">
                   <option v-for="code in Object.keys(country_options)" v-bind:value="code"
@@ -93,7 +95,8 @@
               </thead>
               <tbody>
               <country-row v-for="restriction in countryRestrictions" v-bind:key="restriction.id"
-                           :restriction="restriction"/>
+                           :restriction="restriction" v-on:commit="onCommitCountryRestrictionUpdate"
+                           v-on:delete="onDeleteCountryRestriction"/>
               </tbody>
             </table>
           </div>
@@ -106,17 +109,30 @@
 
 <script lang="ts">
 
-import {Component, Vue} from "vue-property-decorator";
+import {Component} from "vue-property-decorator";
 import ContentWrapper from "@/components/ContentWrapper.vue";
 import BaseView from "@/views/BaseView.vue";
 import {Prefecture} from "@/utils/Prefecture";
 import * as i18nCountries from "i18n-iso-countries";
-import * as jpPrefecture from 'jp-prefecture';
 import {LocalizedCountryNames} from "i18n-iso-countries";
+import * as jpPrefecture from 'jp-prefecture';
 import LocationRow from "@/components/LocationRow.vue";
-import {Contact, CountryRestriction, IpAddressRestriction} from "@/client/ApiResult";
+import {Contact, CountryRestriction, IpAddressRestriction, LocationRestriction} from "@/client/ApiResult";
 import IpAddressRow from "@/components/IpAddressRow.vue";
 import CountryRow from "@/components/CountryRow.vue";
+import {
+  AccessKbn,
+  LocationKbn,
+  PostCountryRestrictionInput,
+  PostIpAddressRestrictionInput,
+  PostLocationRestrictionInput
+} from "@/client/ApiInput";
+import {
+  GetCountryRestrictionEndpoint,
+  GetIpAddressRestrictionEndpoint,
+  GetLocationRestrictionEndpoint, PostCountryRestrictionEndpoint, PostIpAddressRestrictionEndpoint,
+  PostLocationRestrictionEndpoint
+} from "@/client/ApiEndpoint";
 
 @Component({
   components: {CountryRow, IpAddressRow, LocationRow, ContentWrapper}
@@ -124,32 +140,122 @@ import CountryRow from "@/components/CountryRow.vue";
 export default class LocationAndIpView extends BaseView {
   prefecture: string = '';
   country: string = '';
+  ipAddress: string = '';
 
-  locationRestrictions: Array<Contact> = [];
+  locationRestrictions: Array<LocationRestriction> = [];
   countryRestrictions: Array<CountryRestriction> = [];
   ipAddressRestrictions: Array<IpAddressRestriction> = [];
 
-  created() {
-    this.$eventBus.$once('api-client-initialized', () => {
-          this.reloadCountryRestrictions();
-          this.reloadIpAddressRestrictions();
-          this.reloadLocationRestrictions();
-        }
-    );
+  reload() {
+    this.reloadCountryRestrictions();
+    this.reloadIpAddressRestrictions();
+    this.reloadLocationRestrictions();
   }
 
   reloadLocationRestrictions(loader?: any) {
-
+    loader = loader ?? this.showLoading();
+    this.apiClient.process({}, GetLocationRestrictionEndpoint).then(result => {
+      this.locationRestrictions = result.results.customer_locations;
+      console.log(this.locationRestrictions);
+      loader.hide();
+    }).catch(reason => {
+      this.handleErrors(reason, loader);
+    });
   }
 
   reloadIpAddressRestrictions(loader?: any) {
-
+    loader = loader ?? this.showLoading();
+    this.apiClient.process({}, GetIpAddressRestrictionEndpoint).then(result => {
+      this.ipAddressRestrictions = result.results.customer_ips;
+      loader.hide();
+    }).catch(reason => {
+      this.handleErrors(reason, loader);
+    });
   }
 
   reloadCountryRestrictions(loader?: any) {
-
+    loader = loader ?? this.showLoading();
+    this.apiClient.process({}, GetCountryRestrictionEndpoint).then(result => {
+      this.countryRestrictions = result.results.customer_overseas;
+      loader.hide();
+    }).catch(reason => {
+      this.handleErrors(reason, loader);
+    });
   }
 
+  addLocationRestriction() {
+    if (this.prefecture) {
+      let input = <PostLocationRestrictionInput>{
+        location_kbn: LocationKbn.Abstract,
+        state: this.prefecture,
+        country: 'JP'
+      }
+      let loader = this.showLoading();
+      this.apiClient.process(input, PostLocationRestrictionEndpoint).then(result => {
+        this.prefecture = '';
+        this.reloadLocationRestrictions(loader);
+      }).catch(reason => {
+        this.handleErrors(reason, loader)
+      })
+    }
+  }
+
+  addIpAddressRestriction() {
+    if (this.ipAddress) {
+      let input = <PostIpAddressRestrictionInput>{
+        access_kbn: AccessKbn.Allow,
+        ip: this.ipAddress
+      }
+      let loader = this.showLoading();
+      this.apiClient.process(input, PostIpAddressRestrictionEndpoint).then(result => {
+        this.ipAddress = '';
+        this.reloadIpAddressRestrictions(loader);
+      }).catch(reason => {
+        this.handleErrors(reason, loader)
+      })
+    }
+  }
+
+  addCountryRestriction() {
+    if (this.country) {
+      let input = <PostCountryRestrictionInput>{
+        access_kbn: AccessKbn.Allow,
+        country: this.country
+      }
+      let loader = this.showLoading();
+      this.apiClient.process(input, PostCountryRestrictionEndpoint).then(result => {
+        this.country = '';
+        this.reloadCountryRestrictions(loader);
+      }).catch(reason => {
+        this.handleErrors(reason, loader)
+      })
+    }
+  }
+
+  onCommitLocationRestrictionUpdate() {
+    // TODO implement
+  }
+
+  onCommitIpAddressRestrictionUpdate() {
+    // TODO implement
+  }
+
+  onCommitCountryRestrictionUpdate() {
+    // TODO implement
+  }
+
+
+  onDeleteLocationRestriction() {
+    // TODO implement
+  }
+
+  onDeleteIpAddressRestriction() {
+    // TODO implement
+  }
+
+  onDeleteCountryRestriction() {
+    // TODO implement
+  }
 
   get country_options(): LocalizedCountryNames {
     return i18nCountries.getNames('ja');
