@@ -4,7 +4,7 @@ import SmsAndEmailView from "@/views/SmsAndEmailView.vue";
 import LocationAndIpView from "@/views/LocationAndIpView.vue";
 import LoginLogsView from "@/views/LoginLogsView.vue";
 import SecuritySettingView from "@/views/SecuritySettingsView.vue";
-import ApiKeyView from "@/views/ApiKeyView.vue";
+import CodeInputView from "@/views/CodeInputView.vue";
 
 Vue.use(VueRouter)
 
@@ -29,6 +29,11 @@ const routes: Array<RouteConfig> = [
         name: 'SecuritySetting',
         component: SecuritySettingView
     },
+    {
+        path: '/code',
+        name: 'CodeInput',
+        component: CodeInputView
+    }
 ]
 
 const router = new VueRouter({
