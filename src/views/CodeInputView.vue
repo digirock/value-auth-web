@@ -33,7 +33,7 @@ export default class CodeInputView extends BaseView {
     let loader = this.showLoading();
     this.apiClient.process(input, Post2FACodeEndpoint).then(result => {
       console.log(result);
-      //TODO Set cookie
+      this.$cookies.set('2fa-jwt', result.results.auth_token);
       loader.hide();
     }).catch(reason => {
       this.handleErrors(reason, loader);

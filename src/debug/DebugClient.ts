@@ -6,7 +6,6 @@ export interface DebugClientOptions extends ApiClientOptions {
     authCode: string,
     apiKey: string,
     customerKey: string,
-    initializationCallback?: (value: ApiClient) => void
 }
 
 export default class DebugClient extends ApiClient {

@@ -1,22 +1,22 @@
-import Vue, { VueConstructor } from 'vue';
+import Vue, {VueConstructor} from 'vue';
 
 declare module 'vue/types/vue' {
 
     interface Vue {
-        $apiClient: any;
-        $eventBus: any;
+        $vaApiClient: any;
+        $vaEventBus: any;
         $loading: any;
     }
 
     interface VueConstructor {
-        $apiClient: any;
-        $eventBus: any;
+        $vaApiClient: any;
+        $vaEventBus: any;
     }
 }
 
 declare module 'vue/types/options' {
     interface ComponentOptions<V extends Vue> {
-        $apiClient?: any;
-        $eventBus?: any;
+        $vaApiClient?: any;
+        $vaEventBus?: any;
     }
 }

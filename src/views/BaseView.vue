@@ -5,11 +5,13 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {parseApiError} from "@/client/ApiError";
-import Loading from 'vue-loading-overlay';
+import * as Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import VueSimpleAlert from "vue-simple-alert";
+import * as VueSimpleAlert from "vue-simple-alert";
 import ApiClient from "@/client/ApiClient";
+import * as VueCookies from 'vue-cookies'
 
+Vue.use(VueCookies);
 Vue.use(Loading);
 Vue.use(VueSimpleAlert);
 @Component({})
@@ -18,7 +20,7 @@ export default class BaseView extends Vue {
     console.log(reason);
     let error = parseApiError(reason);
     console.log(error);
-    if (loader){
+    if (loader) {
       loader.hide();
     }
     let message = Object.values(error.errors.message).join('\n');
@@ -26,7 +28,7 @@ export default class BaseView extends Vue {
   }
 
   protected get apiClient(): ApiClient {
-    return this.$apiClient as ApiClient;
+    return this.$vaApiClient as ApiClient;
   }
 
   protected get isApiClientInitialized(): boolean {
@@ -38,7 +40,7 @@ export default class BaseView extends Vue {
   }
 
   protected created() {
-    this.$eventBus.$once('api-client-initialized', () => {
+    this.$vaEventBus.$once('api-client-initialized', () => {
           this.reload();
         }
     );
