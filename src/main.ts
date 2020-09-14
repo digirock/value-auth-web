@@ -13,7 +13,8 @@ let valueAuth = new ValueAuthUI({
     authCode,
     xdebug: 'PHPSTORM',
     baseUrl: 'https://api-test.homestead.test',
-    mountTo: '#app'
+    mountTo: '#app',
+    role: 'auth'
 })
 
 valueAuth.build();

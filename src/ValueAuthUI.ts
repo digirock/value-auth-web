@@ -12,6 +12,7 @@ export interface ValueAuthOptions {
     mountTo: string,
     baseUrl: string,
     xdebug?: string,
+    role: string
 }
 
 export interface ValueAuthDebugOptions {
@@ -21,6 +22,7 @@ export interface ValueAuthDebugOptions {
     mountTo: string,
     baseUrl: string,
     xdebug?: string,
+    role: string
 }
 
 
@@ -37,19 +39,21 @@ export default class ValueAuthUI {
         Vue.prototype.$vaEventBus = eventBus;
         let apiClient: ApiClient;
         if ((this.options as any)?.apiKey) {
-            let {authCode, customerKey, apiKey, xdebug, baseUrl} = this.options as ValueAuthDebugOptions;
+            let {authCode, customerKey, apiKey, xdebug, baseUrl, role} = this.options as ValueAuthDebugOptions;
             apiClient = new DebugClient({
-                authCode, customerKey, apiKey, xdebug, baseUrl, initializationCallback: client => {
+                authCode, customerKey, apiKey, xdebug, baseUrl, role, initializationCallback: client => {
                     if (client.accessToken) {
                         eventBus.$emit('api-client-initialized');
                     }
+                    return client;
                 }
             });
         } else {
-            let {accessToken, baseUrl, xdebug} = this.options as ValueAuthOptions;
+            let {accessToken, baseUrl, xdebug, role} = this.options as ValueAuthOptions;
             apiClient = new ApiClient({
-                accessToken, xdebug, baseUrl, initializationCallback: client => {
+                accessToken, xdebug, baseUrl, role, initializationCallback: client => {
                     eventBus.$emit('api-client-initialized');
+                    return client;
                 }
             })
         }
