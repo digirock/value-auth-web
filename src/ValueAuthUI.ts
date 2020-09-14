@@ -3,7 +3,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import DebugClient from "@/debug/DebugClient";
+import DebugClient from "@/client/DebugClient";
 import * as i18nCountries from "i18n-iso-countries";
 import ApiClient from "./client/ApiClient";
 
@@ -11,7 +11,7 @@ export interface ValueAuthOptions {
     accessToken: string,
     mountTo: string,
     baseUrl: string,
-    xdebug?: string
+    xdebug?: string,
 }
 
 export interface ValueAuthDebugOptions {
@@ -20,7 +20,7 @@ export interface ValueAuthDebugOptions {
     authCode: string,
     mountTo: string,
     baseUrl: string,
-    xdebug?: string
+    xdebug?: string,
 }
 
 
