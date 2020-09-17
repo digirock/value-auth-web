@@ -177,7 +177,7 @@ export default class LocationAndIpView extends BaseView {
   reloadIpAddressRestrictions(loader?: any) {
     loader = loader ?? this.showLoading();
     this.apiClient.process({}, GetIpAddressRestrictionEndpoint).then(result => {
-      this.ipAddressRestrictions = result.results.customer_ip;
+      this.ipAddressRestrictions = result.results.customer_ips;
       loader.hide();
     }).catch(reason => {
       this.handleErrors(reason, loader);
@@ -187,7 +187,7 @@ export default class LocationAndIpView extends BaseView {
   reloadCountryRestrictions(loader?: any) {
     loader = loader ?? this.showLoading();
     this.apiClient.process({}, GetCountryRestrictionEndpoint).then(result => {
-      this.countryRestrictions = result.results.customer_oversea;
+      this.countryRestrictions = result.results.customer_overseas;
       loader.hide();
     }).catch(reason => {
       this.handleErrors(reason, loader);
