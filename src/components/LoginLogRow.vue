@@ -1,7 +1,7 @@
 <template>
-  <tr :class="loginLog.is_success ? 'ok' : 'ng'">
+  <tr :class="loginLog.login_status === 'logged_in' ? 'ok' : 'ng'">
     <td class="va_check"></td>
-    <td>{{ loginLog.date }}</td>
+    <td>{{ loginLog.logged_in_at}}</td>
     <td>{{ loginLog.ip }}</td>
     <td class="va_agent">{{ loginLog.user_agent }}
     </td>
