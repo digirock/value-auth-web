@@ -33,8 +33,8 @@ import {Component, Prop} from "vue-property-decorator";
 import * as i18nCountries from "i18n-iso-countries";
 import {LocalizedCountryNames} from "i18n-iso-countries";
 import {PropType} from "vue";
-import {CountryRestriction, Model} from "@/client/ApiResult";
-import {AccessKbn} from "@/client/ApiInput";
+import {CountryRestriction, Model} from "value-auth-js";
+import {AccessKbn} from "value-auth-js";
 
 @Component({})
 export default class CountryRow extends DataRow {

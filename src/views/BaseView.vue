@@ -4,12 +4,11 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import {parseApiError} from "@/client/ApiError";
 import * as Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import * as VueSimpleAlert from "vue-simple-alert";
-import ApiClient from "@/client/ApiClient";
 import * as VueCookies from 'vue-cookies'
+import {ApiClient, parseApiError} from "value-auth-js";
 
 Vue.use(VueCookies);
 Vue.use(Loading);

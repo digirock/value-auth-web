@@ -25,9 +25,9 @@
 <script lang="ts">
 import DataRow from "./DataRow.vue";
 import {Component, Prop} from "vue-property-decorator";
-import {IpAddressRestriction, Model} from "@/client/ApiResult";
+import {IpAddressRestriction, Model} from "value-auth-js";
 import {PropType} from "vue";
-import {AccessKbn} from "@/client/ApiInput";
+import {AccessKbn} from "value-auth-js";
 
 @Component
 export default class IpAddressRow extends DataRow {

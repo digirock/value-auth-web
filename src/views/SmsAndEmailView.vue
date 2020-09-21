@@ -64,9 +64,9 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import ContentWrapper from "@/components/ContentWrapper.vue";
-import {DeleteContactInput, GetContactInput, PostContactInput, PutContactInput, SendKbn} from "@/client/ApiInput";
-import {DeleteContactEndpoint, GetContactEndpoint, PostContactEndpoint, PutContactEndpoint} from "@/client/ApiEndpoint";
-import {Contact} from "@/client/ApiResult";
+import {DeleteContactInput, GetContactInput, PostContactInput, PutContactInput, SendKbn} from "value-auth-js";
+import {DeleteContactEndpoint, GetContactEndpoint, PostContactEndpoint, PutContactEndpoint} from "value-auth-js";
+import {Contact} from "value-auth-js";
 import BaseView from "@/views/BaseView.vue";
 import 'vue-loading-overlay/dist/vue-loading.css';
 import VueSimpleAlert from "vue-simple-alert";

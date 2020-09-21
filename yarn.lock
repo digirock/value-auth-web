@@ -8999,6 +8999,12 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
+value-auth-js@../value-auth-js:
+  version "1.0.0"
+  dependencies:
+    jwt-simple "^0.5.6"
+    typed-rest-client "^1.7.3"
+
 vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"

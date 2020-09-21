@@ -23,11 +23,11 @@
 <script lang="ts">
 import {Component, Prop} from "vue-property-decorator";
 import {PropType} from "vue";
-import {Contact, Model} from "@/client/ApiResult";
 import DataRow from "@/components/DataRow.vue";
+import {Contact, Model} from "value-auth-js";
 
 @Component({})
-export default class ContactRow extends DataRow{
+export default class ContactRow extends DataRow {
   @Prop({type: Object as PropType<Contact>}) contact!: Contact;
   editing: boolean = false;
 

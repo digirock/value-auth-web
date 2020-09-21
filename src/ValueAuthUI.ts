@@ -2,17 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import store from './store'
-import DebugClient from "@/client/DebugClient";
 import * as i18nCountries from "i18n-iso-countries";
-import ApiClient from "./client/ApiClient";
+import {AccessTokenRole, ApiClient, DebugClient} from "value-auth-js";
 
 export interface ValueAuthOptions {
     accessToken: string,
     mountTo: string,
     baseUrl: string,
     xdebug?: string,
-    role: string
+    role: AccessTokenRole
 }
 
 export interface ValueAuthDebugOptions {
@@ -22,7 +20,7 @@ export interface ValueAuthDebugOptions {
     mountTo: string,
     baseUrl: string,
     xdebug?: string,
-    role: string
+    role: AccessTokenRole
 }
 
 
@@ -62,7 +60,6 @@ export default class ValueAuthUI {
         i18nCountries.registerLocale(require("i18n-iso-countries/langs/ja.json"))
         const app = new Vue({
             router,
-            store,
             render: h => h(App),
         });
 

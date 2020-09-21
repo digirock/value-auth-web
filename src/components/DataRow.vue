@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import {Model} from "@/client/ApiResult";
+import {Model} from "value-auth-js";
 
 @Component({})
 export default class DataRow extends Vue {

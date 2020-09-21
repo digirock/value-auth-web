@@ -117,7 +117,6 @@ import * as i18nCountries from "i18n-iso-countries";
 import {LocalizedCountryNames} from "i18n-iso-countries";
 import * as jpPrefecture from 'jp-prefecture';
 import LocationRow from "@/components/LocationRow.vue";
-import {CountryRestriction, IpAddressRestriction, LocationRestriction} from "@/client/ApiResult";
 import IpAddressRow from "@/components/IpAddressRow.vue";
 import CountryRow from "@/components/CountryRow.vue";
 import {
@@ -129,9 +128,7 @@ import {
   PostLocationRestrictionInput,
   PutCountryRestrictionInput,
   PutIpAddressRestrictionInput,
-  PutLocationRestrictionInput
-} from "@/client/ApiInput";
-import {
+  PutLocationRestrictionInput,
   DeleteCountryRestrictionEndpoint,
   DeleteIpAddressRestrictionEndpoint,
   DeleteLocationRestrictionEndpoint,
@@ -143,8 +140,8 @@ import {
   PostLocationRestrictionEndpoint,
   PutCountryRestrictionEndpoint,
   PutIpAddressRestrictionEndpoint,
-  PutLocationRestrictionEndpoint
-} from "@/client/ApiEndpoint";
+  PutLocationRestrictionEndpoint, LocationRestriction, CountryRestriction, IpAddressRestriction
+} from "value-auth-js";
 
 @Component({
   components: {CountryRow, IpAddressRow, LocationRow, ContentWrapper}

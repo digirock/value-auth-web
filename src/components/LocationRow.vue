@@ -20,7 +20,7 @@ import {Component, Prop} from "vue-property-decorator";
 import * as jpPrefecture from 'jp-prefecture';
 import {Prefecture} from "@/utils/Prefecture";
 import DataRow from "@/components/DataRow.vue";
-import {LocationRestriction, Model} from "@/client/ApiResult";
+import {LocationRestriction, Model} from "value-auth-js";
 import {PropType} from "vue";
 
 @Component({})

@@ -46,10 +46,10 @@
 <script lang="ts">
 import ContentWrapper from "@/components/ContentWrapper.vue";
 import {Component, Vue} from 'vue-property-decorator'
-import {CustomerSetting} from "@/client/ApiResult";
+import {CustomerSetting} from "value-auth-js";
 import BaseView from "@/views/BaseView.vue";
-import {GetCustomerSettingEndpoint, PutCustomerSettingEndpoint} from "@/client/ApiEndpoint";
-import {PutCustomerSettingInput} from "@/client/ApiInput";
+import {GetCustomerSettingEndpoint, PutCustomerSettingEndpoint} from "value-auth-js";
+import {PutCustomerSettingInput} from "value-auth-js";
 
 @Component({
   components: {ContentWrapper}

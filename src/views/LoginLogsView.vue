@@ -32,14 +32,12 @@
 
 <script lang="ts">
 import {Component} from 'vue-property-decorator'
-import {LoginLog} from "@/client/ApiResult";
 import LoginLogRow from "@/components/LoginLogRow.vue";
 import ContentWrapper from "@/components/ContentWrapper.vue";
 import BaseView from "@/views/BaseView.vue";
 import InfiniteLoading from "vue-infinite-loading";
-import {GetLoginLogEndpoint, PostLoginLogEndpoint} from "@/client/ApiEndpoint";
-import {GetLoginLogInput, PostLoginLogInput} from "@/client/ApiInput";
 import * as ipify from "ipify2";
+import {GetLoginLogEndpoint, GetLoginLogInput, LoginLog, PostLoginLogEndpoint, PostLoginLogInput} from "value-auth-js";
 
 @Component({
   components: {LoginLogRow, ContentWrapper, InfiniteLoading}
