@@ -39,7 +39,7 @@ export default class BaseView extends Vue {
   }
 
   protected created() {
-    this.$vaEventBus.$once('api-client-initialized', () => {
+    this.$vaEventBus.$once('value-auth-api-client-initialized', () => {
           this.reload();
         }
     );

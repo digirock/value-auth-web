@@ -14,6 +14,7 @@ import LoginLogsView from "@/views/LoginLogsView.vue";
 import SecuritySettingsView from "@/views/SecuritySettingsView.vue";
 import SmsAndEmailView from "@/views/SmsAndEmailView.vue";
 import {AccessTokenRole, ApiClient, DebugClient} from "value-auth-js";
+import * as i18nCountries from "i18n-iso-countries";
 
 const Components: { [name: string]: any } = {
     'menu-bar': MenuBar,
@@ -60,7 +61,7 @@ export const ValueAuthModule: PluginObject<any> = {
             apiClient = new DebugClient({
                 authCode, customerKey, apiKey, xdebug, baseUrl, role, initializationCallback: client => {
                     if (client.accessToken) {
-                        eventBus.$emit('api-client-initialized');
+                        eventBus.$emit('value-auth-api-client-initialized');
                     }
                     return client;
                 }
@@ -69,7 +70,7 @@ export const ValueAuthModule: PluginObject<any> = {
             let {accessToken, baseUrl, xdebug, role} = options as ValueAuthOptions;
             apiClient = new ApiClient({
                 accessToken, xdebug, baseUrl, role, initializationCallback: client => {
-                    eventBus.$emit('api-client-initialized');
+                    eventBus.$emit('value-auth-api-client-initialized');
                     return client;
                 }
             })
@@ -78,5 +79,6 @@ export const ValueAuthModule: PluginObject<any> = {
         Object.keys(Components).forEach(name => {
             vue.component('value-auth-' + name, Components[name]);
         })
+        i18nCountries.registerLocale(require("i18n-iso-countries/langs/ja.json") as any)
     }
 }
