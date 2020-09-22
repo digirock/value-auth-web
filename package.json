@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --port 8888",
     "build": "vue-cli-service build",
+    "build-bundle": "vue-cli-service build --target lib --name value-auth-web ./src/library.ts",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e"
   },
@@ -45,6 +46,8 @@
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
     "typescript-tslint-plugin": "^0.5.5",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "ts-loader": "^8.0.4",
+    "ts-node": "^9.0.0"
   }
 }

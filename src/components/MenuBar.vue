@@ -1,19 +1,23 @@
 <template>
   <div class="va_menu">
     <ul>
-      <router-link tag="li" id="va_twoset" to="/"><a>2段階認証設定</a></router-link>
-      <router-link tag="li" id="va_point" to="/location_and_ip"><a>位置情報 / IP制限設定</a></router-link>
-      <router-link tag="li" id="va_watch" to="/login_log"><a>ログインの監視</a></router-link>
-      <router-link tag="li" id="va_security" to="/security_setting"><a>セキュリティ設定</a></router-link>
+      <router-link tag="li" id="va_twoset" :to="smsPath"><a>2段階認証設定</a></router-link>
+      <router-link tag="li" id="va_point" :to="locationPath"><a>位置情報 / IP制限設定</a></router-link>
+      <router-link tag="li" id="va_watch" :to="loginLogPath"><a>ログインの監視</a></router-link>
+      <router-link tag="li" id="va_security" :to="securityPath"><a>セキュリティ設定</a></router-link>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 
 @Component
 export default class MenuBar extends Vue {
+  @Prop({default: '/va_contact'}) smsPath!: string;
+  @Prop({default: '/va_location'}) locationPath!: string;
+  @Prop({default: '/va_login_log'}) loginLogPath!: string;
+  @Prop({default: '/va_security'}) securityPath!: string;
 }
 </script>
 <style>
@@ -57,7 +61,7 @@ a:focus {
   border-radius: 24px;
 }
 
-.va_menu .router-link-exact-active>a{
+.va_menu .router-link-exact-active > a {
   background: #1E9696;
   color: #fff;
 }
