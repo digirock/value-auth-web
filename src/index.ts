@@ -13,6 +13,7 @@ import LocationAndIpView from "@/views/LocationAndIpView.vue";
 import LoginLogsView from "@/views/LoginLogsView.vue";
 import SecuritySettingsView from "@/views/SecuritySettingsView.vue";
 import SmsAndEmailView from "@/views/SmsAndEmailView.vue";
+import ManagementConsole from "@/views/ManagementConsole.vue";
 import {AccessTokenRole, ApiClient, DebugClient} from "value-auth-js";
 import * as i18nCountries from "i18n-iso-countries";
 
@@ -30,7 +31,8 @@ const Components: { [name: string]: any } = {
     'location-and-ip-view': LocationAndIpView,
     'login-logs-view': LoginLogsView,
     'security-settings-view': SecuritySettingsView,
-    'sms-and-email-view': SmsAndEmailView
+    'sms-and-email-view': SmsAndEmailView,
+    'management-console': ManagementConsole
 }
 
 export interface ValueAuthOptions {
@@ -82,3 +84,21 @@ export const ValueAuthModule: PluginObject<any> = {
         i18nCountries.registerLocale(require("i18n-iso-countries/langs/ja.json") as any)
     }
 }
+
+export {
+    MenuBar,
+    BaseView,
+    ContactRow,
+    ContentWrapper,
+    CountryRow,
+    DataRow,
+    IpAddressRow,
+    LocationRow,
+    LoginLogRow,
+    CodeInputView,
+    LocationAndIpView,
+    LoginLogsView,
+    SecuritySettingsView,
+    SmsAndEmailView,
+    ManagementConsole
+};

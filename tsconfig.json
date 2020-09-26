@@ -12,7 +12,9 @@
     "sourceMap": true,
     "declaration": true,
     "baseUrl": ".",
-    "outDir": "./tsOutputs",
+    "outDir": "dist-compiled",
+    "declarationDir": "dist/types",
+    "types": ["node", "vue"],
     "paths": {
       "@/*": [
         "src/*"
@@ -38,6 +40,6 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules", "dist"
   ]
 }
