@@ -9031,9 +9031,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-value-auth-js@../value-auth-js:
+"value-auth-js@file:../../../../../works/GMODigirock/value-auth/src/value-auth-js":
   version "1.0.0"
   dependencies:
+    ipify2 "^1.0.7"
     jwt-simple "^0.5.6"
     typed-rest-client "^1.7.3"
 

@@ -17,7 +17,13 @@
 import BaseView from "./BaseView.vue";
 import {Component} from "vue-property-decorator";
 import ContentWrapper from "@/components/ContentWrapper.vue";
-import {Get2FACodeEndpoint, Post2FACodeEndpoint, Post2FACodeInput} from "value-auth-js";
+import {
+  Get2FACodeEndpoint,
+  Post2FACodeEndpoint,
+  Post2FACodeInput,
+  PostLoginCheckEndpoint,
+  PostLoginCheckInput
+} from "value-auth-js";
 
 @Component({
   components: {ContentWrapper}

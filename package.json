@@ -44,7 +44,8 @@
     "vue-phone-number-input": "^1.1.10",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0",
-    "vue-simple-alert": "^1.1.1"
+    "vue-simple-alert": "^1.1.1",
+    "ipify2": "^1.0.7"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
@@ -59,7 +60,6 @@
     "@vue/cli-service": "~4.4.0",
     "@vue/test-utils": "^1.0.3",
     "chai": "^4.1.2",
-    "ipify2": "^1.0.7",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
