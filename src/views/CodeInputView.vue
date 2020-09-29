@@ -15,21 +15,17 @@
 
 <script lang="ts">
 import BaseView from "./BaseView.vue";
-import {Component} from "vue-property-decorator";
+import {Component, Prop} from "vue-property-decorator";
 import ContentWrapper from "@/components/ContentWrapper.vue";
-import {
-  Get2FACodeEndpoint,
-  Post2FACodeEndpoint,
-  Post2FACodeInput,
-  PostLoginCheckEndpoint,
-  PostLoginCheckInput
-} from "value-auth-js";
+import {Get2FACodeEndpoint, Post2FACodeEndpoint, Post2FACodeInput} from "value-auth-js";
+import {PropType} from "vue";
 
 @Component({
   components: {ContentWrapper}
 })
 export default class CodeInputView extends BaseView {
   code: string = '';
+  @Prop() redirect!: string;
 
   onSubmit() {
     let input = <Post2FACodeInput>{
@@ -37,9 +33,13 @@ export default class CodeInputView extends BaseView {
     };
     let loader = this.showLoading();
     this.apiClient.process(input, Post2FACodeEndpoint).then(result => {
-      console.log(result);
-      this.$cookies.set('2fa-jwt', result.results.auth_token);
-      loader.hide();
+      if (result.results.status === 'ng') {
+        this.$alert("二段階認証コードが正しくありません");
+      } else {
+        this.$cookies.set('vauth-2fa-auth-token', result.results.auth_token);
+        window.location.href = this.redirect;
+        loader.hide();
+      }
     }).catch(reason => {
       this.handleErrors(reason, loader);
     });

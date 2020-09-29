@@ -57,6 +57,7 @@ export default class LoginLogsView extends BaseView {
     this.currentPage = 1;
     this.lastPage = Number.MAX_SAFE_INTEGER;
     this.total = Number.MAX_SAFE_INTEGER;
+    this.loginLogs = [];
   }
 
   reload() {
@@ -75,7 +76,7 @@ export default class LoginLogsView extends BaseView {
     loader = loader ?? this.showLoading();
     this.apiClient.process(input, GetLoginLogEndpoint).then(result => {
       console.log(result);
-      this.loginLogs = result.results.customer_login_logs;
+      this.loginLogs = this.loginLogs.concat(result.results.customer_login_log);
       this.lastPage = result.results.last_page;
       this.currentPage = result.results.page;
       this.total = result.results.total;
