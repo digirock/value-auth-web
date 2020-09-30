@@ -16,9 +16,7 @@ Vue.use(VueSimpleAlert);
 @Component({})
 export default class BaseView extends Vue {
   protected handleErrors(reason: any, loader: any) {
-    console.log(reason);
     let error = parseApiError(reason);
-    console.log(error);
     if (loader) {
       loader.hide();
     }
@@ -52,7 +50,7 @@ export default class BaseView extends Vue {
   }
 
   protected showLoading(): any {
-    return this.$loading.show();
+    return (this as any).$loading.show();
   }
 }
 </script>

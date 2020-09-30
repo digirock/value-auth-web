@@ -110,15 +110,15 @@
 <script lang="ts">
 
 import {Component} from "vue-property-decorator";
-import ContentWrapper from "@/components/ContentWrapper.vue";
-import BaseView from "@/views/BaseView.vue";
-import {Prefecture} from "@/utils/Prefecture";
+import ContentWrapper from "../components/ContentWrapper.vue";
+import BaseView from "./BaseView.vue";
+import {Prefecture} from "../utils/Prefecture";
 import * as i18nCountries from "i18n-iso-countries";
 import {LocalizedCountryNames} from "i18n-iso-countries";
 import * as jpPrefecture from 'jp-prefecture';
-import LocationRow from "@/components/LocationRow.vue";
-import IpAddressRow from "@/components/IpAddressRow.vue";
-import CountryRow from "@/components/CountryRow.vue";
+import LocationRow from "../components/LocationRow.vue";
+import IpAddressRow from "../components/IpAddressRow.vue";
+import CountryRow from "../components/CountryRow.vue";
 import {
   AccessKbn,
   DeleteLocationRestrictionInput,

@@ -10,9 +10,9 @@
   </div>
 </template>
 
-<script>
-import MenuBar from "@/components/MenuBar";
-import SmsAndEmailView from "@/views/SmsAndEmailView";
+<script lang="ts">
+import MenuBar from "./components/MenuBar.vue";
+import SmsAndEmailView from "./views/SmsAndEmailView.vue";
 import {Component, Vue} from "vue-property-decorator";
 
 @Component({

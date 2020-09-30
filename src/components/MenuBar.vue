@@ -20,8 +20,10 @@ export default class MenuBar extends Vue {
   @Prop({default: '/va_security'}) securityPath!: string;
 }
 </script>
-<style>
-a:focus {
+
+<style scoped>
+
+a :focus {
   box-shadow: none;
 }
 

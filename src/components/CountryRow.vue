@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import DataRow from "@/components/DataRow.vue";
+import DataRow from "./DataRow.vue";
 import {Component, Prop} from "vue-property-decorator";
 import * as i18nCountries from "i18n-iso-countries";
 import {LocalizedCountryNames} from "i18n-iso-countries";

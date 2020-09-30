@@ -31,6 +31,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "i18n-iso-countries": "^6.0.0",
+    "ipify2": "^1.0.7",
     "jp-prefecture": "^0.2.1",
     "jwt-simple": "^0.5.6",
     "register-service-worker": "^1.7.1",
@@ -44,10 +45,12 @@
     "vue-phone-number-input": "^1.1.10",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0",
-    "vue-simple-alert": "^1.1.1",
-    "ipify2": "^1.0.7"
+    "vue-simple-alert": "^1.1.1"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^5.2.4",
     "@vue/cli-plugin-babel": "~4.4.0",
@@ -58,14 +61,20 @@
     "@vue/cli-plugin-unit-mocha": "~4.4.0",
     "@vue/cli-plugin-vuex": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
+    "@vue/compiler-sfc": "^3.0.0",
     "@vue/test-utils": "^1.0.3",
     "chai": "^4.1.2",
+    "rollup": "^2.28.2",
+    "rollup-plugin-css": "^1.0.10",
+    "rollup-plugin-css-only": "^2.1.0",
+    "rollup-plugin-typescript2": "^0.27.3",
+    "rollup-plugin-vue": "^6.0.0-beta.10",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
+    "ts-loader": "^8.0.4",
+    "ts-node": "^9.0.0",
     "typescript": "~3.9.3",
     "typescript-tslint-plugin": "^0.5.5",
-    "vue-template-compiler": "^2.6.11",
-    "ts-loader": "^8.0.4",
-    "ts-node": "^9.0.0"
+    "vue-template-compiler": "^2.6.11"
   }
 }

@@ -16,9 +16,8 @@
 <script lang="ts">
 import BaseView from "./BaseView.vue";
 import {Component, Prop} from "vue-property-decorator";
-import ContentWrapper from "@/components/ContentWrapper.vue";
+import ContentWrapper from "../components/ContentWrapper.vue";
 import {Get2FACodeEndpoint, Post2FACodeEndpoint, Post2FACodeInput} from "value-auth-js";
-import {PropType} from "vue";
 
 @Component({
   components: {ContentWrapper}

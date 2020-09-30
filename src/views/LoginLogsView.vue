@@ -32,12 +32,11 @@
 
 <script lang="ts">
 import {Component} from 'vue-property-decorator'
-import LoginLogRow from "@/components/LoginLogRow.vue";
-import ContentWrapper from "@/components/ContentWrapper.vue";
-import BaseView from "@/views/BaseView.vue";
+import LoginLogRow from "../components/LoginLogRow.vue";
+import ContentWrapper from "../components/ContentWrapper.vue";
+import BaseView from "./BaseView.vue";
 import InfiniteLoading from "vue-infinite-loading";
-import * as ipify from "ipify2";
-import {GetLoginLogEndpoint, GetLoginLogInput, LoginLog, PostLoginLogEndpoint, PostLoginLogInput} from "value-auth-js";
+import {GetLoginLogEndpoint, GetLoginLogInput, LoginLog} from "value-auth-js";
 
 @Component({
   components: {LoginLogRow, ContentWrapper, InfiniteLoading}
@@ -66,9 +65,6 @@ export default class LoginLogsView extends BaseView {
   }
 
   loadLoginLog(page: number = 0, loader?: any) {
-    // if (this.hasNextPage){
-    //   this.debugRegisterLoginLog();
-    // }
     let input = <GetLoginLogInput>{
       page: page,
       limit: this.limit,
@@ -90,21 +86,6 @@ export default class LoginLogsView extends BaseView {
     if (this.hasNextPage && this.isApiClientInitialized) {
       this.loadLoginLog(this.currentPage + 1);
     }
-  }
-
-  debugRegisterLoginLog(){
-    ipify.ipv4().then(ipv4 => {
-      let input = <PostLoginLogInput>{
-        ip: ipv4,
-        user_agent: navigator.userAgent,
-        is_success: true
-      };
-      this.apiClient.process(input, PostLoginLogEndpoint).then(result =>{
-        console.log(result);
-      }).catch(reason => {
-        console.log(reason);
-      })
-    });
   }
 }
 </script>

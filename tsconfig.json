@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
+    "noImplicitThis": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -14,13 +15,17 @@
     "baseUrl": ".",
     "outDir": "dist-compiled",
     "declarationDir": "dist/types",
-    "types": ["node", "vue"],
+    "types": [
+      "node",
+      "vue"
+    ],
     "paths": {
       "@/*": [
         "src/*"
       ]
     },
     "lib": [
+      "es6",
       "esnext",
       "dom",
       "dom.iterable",
@@ -40,6 +45,7 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules", "dist"
+    "node_modules",
+    "dist"
   ]
 }

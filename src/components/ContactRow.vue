@@ -23,7 +23,7 @@
 <script lang="ts">
 import {Component, Prop} from "vue-property-decorator";
 import {PropType} from "vue";
-import DataRow from "@/components/DataRow.vue";
+import DataRow from "./DataRow.vue";
 import {Contact, Model} from "value-auth-js";
 
 @Component({})
