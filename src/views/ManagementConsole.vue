@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-property-decorator";
-import MenuBar from '@/components/MenuBar.vue';
+import MenuBar from '../components/MenuBar.vue';
 
 @Component({
   components: {MenuBar}
