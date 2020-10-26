@@ -27,6 +27,9 @@ export default class CodeInputView extends BaseView {
   @Prop() redirect!: string;
 
   onSubmit() {
+    if (this.processing) {
+      return;
+    }
     let input = <Post2FACodeInput>{
       number: this.code
     };

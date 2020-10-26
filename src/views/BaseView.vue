@@ -15,13 +15,16 @@ Vue.use(Loading);
 Vue.use(VueSimpleAlert);
 @Component({})
 export default class BaseView extends Vue {
+  protected processing = false;
   protected handleErrors(reason: any, loader: any) {
     let error = parseApiError(reason);
     if (loader) {
       loader.hide();
+
     }
     let message = Object.values(error.errors.message).join('\n');
     this.$alert(message);
+    this.processing = false;
   }
 
   protected get apiClient(): ApiClient {
@@ -50,6 +53,7 @@ export default class BaseView extends Vue {
   }
 
   protected showLoading(): any {
+    this.processing = true;
     return (this as any).$loading.show();
   }
 }
