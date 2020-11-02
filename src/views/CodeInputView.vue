@@ -50,7 +50,6 @@ export default class CodeInputView extends BaseView {
   resendCode() {
     let loader = this.showLoading();
     this.apiClient.process({}, Get2FACodeEndpoint).then(result => {
-      console.log(result);
       loader.hide();
     }).catch(reason => {
       this.handleErrors(reason, loader);

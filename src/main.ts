@@ -17,7 +17,7 @@ let options = {
     authCode,
     xdebug: 'PHPSTORM',
     baseUrl: 'https://api-test.homestead.test',
-    mountTo: '#app',
+    mountTo: '#app_va_console',
     role: AccessTokenRole.Auth
 }
 
@@ -27,4 +27,4 @@ const app = new Vue({
     router,
     render: h=> h(CodeInputView),
 });
-app.$mount("#app");
+app.$mount("#app_va_console");

@@ -71,7 +71,6 @@ export default class LoginLogsView extends BaseView {
     }
     loader = loader ?? this.showLoading();
     this.apiClient.process(input, GetLoginLogEndpoint).then(result => {
-      console.log(result);
       this.loginLogs = this.loginLogs.concat(result.results.customer_login_log);
       this.lastPage = result.results.last_page;
       this.currentPage = result.results.page;

@@ -123,7 +123,6 @@ export default class SmsAndEmailView extends BaseView {
     }
     let loader = this.showLoading();
     this.apiClient.process(input, PostContactEndpoint).then(result => {
-      console.log(result);
       this.reloadEmails(loader);
       this.email = ''
     }).catch(reason => {
