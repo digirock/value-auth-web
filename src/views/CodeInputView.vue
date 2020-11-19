@@ -9,7 +9,7 @@
       </form>
       <a href="#" class="txt_link" v-on:click.prevent="resendCode">２段階認証コードを再送信</a>
     </div>
-    <p class="attention">端末の紛失、メールアドレスの削除等で認証コードが受け取れなくなった場合は、WordPress管理者にご連絡いただき、２段階認証の解除依頼を行って下さい。</p>
+    <p class="attention">端末の紛失、メールアドレスの削除等で認証コードが受け取れなくなった場合は、システム管理者にご連絡いただき、２段階認証の解除依頼を行って下さい。</p>
   </div>
 </template>
 
