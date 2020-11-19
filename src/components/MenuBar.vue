@@ -1,11 +1,10 @@
 <template>
   <div class="va_menu">
     <ul>
-      <router-link tag="li" id="va_twoset" :to="smsPath"><a>2段階認証設定</a></router-link>
-      <router-link tag="li" id="va_point" :to="locationPath"><a>位置情報 / IP制限設定</a></router-link>
-      <router-link tag="li" id="va_watch" :to="loginLogPath"><a>ログインの監視</a></router-link>
-      <router-link tag="li" id="va_security" :to="securityPath"><a>セキュリティ設定</a></router-link>
-    </ul>
+      <router-link tag="li" id="va_twoset" to="/"><a>2段階認証設定</a></router-link>
+      <router-link tag="li" id="va_point" to="/location_and_ip"><a>位置情報 / IP制限設定</a></router-link>
+      <router-link tag="li" id="va_watch" to="/login_log"><a>ログインの監視</a></router-link>
+    </ul>a
   </div>
 </template>
 

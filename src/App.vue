@@ -4,7 +4,6 @@
         sms-path="/"
         location-path="/location_and_ip"
         login-log-path="/login_log"
-        security-path="/security_setting"
     ></menu-bar>
     <router-view/>
   </div>
