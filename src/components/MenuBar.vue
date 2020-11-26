@@ -4,7 +4,7 @@
       <router-link tag="li" id="va_twoset" to="/"><a>2段階認証設定</a></router-link>
       <router-link tag="li" id="va_point" to="/location_and_ip"><a>位置情報 / IP制限設定</a></router-link>
       <router-link tag="li" id="va_watch" to="/login_log"><a>ログインの監視</a></router-link>
-    </ul>a
+    </ul>
   </div>
 </template>
 
