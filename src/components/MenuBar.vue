@@ -97,11 +97,11 @@ a :focus {
 
 @media print, screen and (min-width: 1200px) {
   .va_menu ul {
-    width: 100%;
+    width: 60%;
   }
 
   .va_menu li {
-    width: 20%;
+    width: 33%;
   }
 
   .va_menu a {
